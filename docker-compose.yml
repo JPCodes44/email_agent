@@ -1,0 +1,26 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/frontend/src
+      - ./common/src:/app/common/src
+    env_file:
+      - .env
+      - frontend/.env
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app/backend
+      - ./common/src:/app/common/src
+    env_file:
+      - .env
+      - backend/.env

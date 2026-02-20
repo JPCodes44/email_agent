@@ -1,0 +1,5 @@
+{
+  "name": "email-agent",
+  "private": true,
+  "workspaces": ["frontend", "backend", "common"]
+}

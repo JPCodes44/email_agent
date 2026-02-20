@@ -1,0 +1,4 @@
+Email,Company,Level,Country,Emailed?,First name,Job Type
+jane@acmecorp.com,Acme Corp,Early,California,No,Jane,Automation
+bob@widgetinc.com,Widget Inc,Mid,New York,No,Bob,Coding
+alice@techsolutions.io,Tech Solutions,Early,Ontario,No,Alice,Data Entry

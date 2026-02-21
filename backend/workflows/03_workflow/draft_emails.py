@@ -57,7 +57,7 @@ def main():
     setup_logging(args.verbose)
 
     emails_dir = args.emails_dir or config.OUTPUT_DIR / "emails"
-    csv_path = config.WORKFLOWS_DIR / "recruiters" / "list.csv"
+    csv_path = config.WORKFLOWS_DIR / "list.csv"
 
     if not csv_path.exists():
         log.error(f"Recruiters CSV not found: {csv_path}")

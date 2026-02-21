@@ -88,7 +88,7 @@ def generate_template(client: Anthropic, company: str, job_type_str: str,
     )
 
     resp = client.messages.create(
-        model="claude-sonnet-4-5-20250514",
+        model="claude-3-haiku-20240307",
         max_tokens=1024,
         messages=[{"role": "user", "content": prompt}],
     )

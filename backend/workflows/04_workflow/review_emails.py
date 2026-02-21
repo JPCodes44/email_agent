@@ -63,7 +63,7 @@ def claude_quality_check(client: Anthropic, email_body: str, resume_text: str) -
     )
 
     resp = client.messages.create(
-        model="claude-haiku-4-5-20251001",
+        model="claude-3-haiku-20240307",
         max_tokens=512,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -90,7 +90,7 @@ def main():
     setup_logging(args.verbose)
 
     emails_dir = args.emails_dir or config.OUTPUT_DIR / "emails"
-    csv_path = config.WORKFLOWS_DIR / "recruiters" / "list.csv"
+    csv_path = config.WORKFLOWS_DIR / "list.csv"
 
     if not csv_path.exists():
         log.error(f"Recruiters CSV not found: {csv_path}")

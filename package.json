@@ -1,5 +1,11 @@
 {
   "name": "email-agent",
   "private": true,
-  "workspaces": ["frontend", "backend", "common"]
+  "workspaces": ["frontend", "backend", "common"],
+  "scripts": {
+    "dev": "bun run --filter frontend dev & bun run --filter backend dev & wait",
+    "dev:frontend": "bun run --filter frontend dev",
+    "dev:backend": "bun run --filter backend dev",
+    "build": "bun run --filter frontend build"
+  }
 }

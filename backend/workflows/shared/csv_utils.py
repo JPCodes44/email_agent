@@ -8,7 +8,7 @@ def read_csv(path: str | Path) -> list[dict]:
         reader = csv.DictReader(f)
         rows = []
         for row in reader:
-            rows.append({k.strip(): v.strip() for k, v in row.items()})
+            rows.append({k.strip(): (v.strip() if v else "") for k, v in row.items() if k is not None})
         return rows
 
 

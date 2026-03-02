@@ -5,7 +5,7 @@ export type StepStatus = "idle" | "running" | "success" | "error";
 export interface StepOption {
   flag: string;
   label: string;
-  type: "text" | "number" | "boolean";
+  type: "text" | "number" | "boolean" | "textarea";
   default?: string | number | boolean;
 }
 
@@ -37,9 +37,9 @@ export const WORKFLOW_STEPS: WorkflowStepConfig[] = [
   },
   {
     id: 2,
-    name: "Template Generation",
-    description: "Generate personalized email templates",
-    script: "02_workflow/generate_from_csv.py",
+    name: "Person Research",
+    description: "Research contacts via email & web",
+    script: "02_workflow/research_people.py",
     options: [
       { flag: "--dry-run", label: "Dry Run", type: "boolean", default: false },
       { flag: "--overwrite", label: "Overwrite Existing", type: "boolean", default: false },
@@ -48,9 +48,55 @@ export const WORKFLOW_STEPS: WorkflowStepConfig[] = [
   },
   {
     id: 3,
+    name: "Template Generation",
+    description: "Generate personalized email templates",
+    script: "03_workflow/generate_from_csv.py",
+    options: [
+      { flag: "--dry-run", label: "Dry Run", type: "boolean", default: false },
+      { flag: "--overwrite", label: "Overwrite Existing", type: "boolean", default: false },
+      { flag: "-v", label: "Verbose", type: "boolean", default: false },
+      {
+        flag: "--prompt-instructions",
+        label: "Email Format",
+        type: "textarea",
+        default:
+          "EMAIL STRUCTURE - follow this template exactly. Fill in the bracketed placeholders with real, " +
+          "specific content based on the research and resume provided.\n\n" +
+          "Subject Line. Under 60 characters. Specific to the recruiter or company, and relevant to the resume type selected. " +
+          "For Automation roles use subject lines that reference efficiency, automation, or saving time. " +
+          "For Coding roles reference engineering, shipping software, or a specific tech stack. " +
+          "For Data Entry roles reference data quality, reporting, or clean data. " +
+          "Never use generic subjects like 'Exciting Opportunity' or 'Quick Question.'\n\n" +
+          "BODY TEMPLATE - follow this structure closely, filling in the brackets with specific details:\n\n" +
+          "\"I really [word/phrase that represents engagement] your [recent activity] about " +
+          "[action that they took]. [How their journey resonates with you personally]\n\n" +
+          "I'm a 3rd-year Nanotechnology Engineering student with a minor in Combinatorics and Optimization " +
+          "at the University of Waterloo in the [resume subject] niche. " +
+          "Having worked in the industry for over 3 years, I figured that companies like yours often face " +
+          "[Challenges that the company faces or you can infer from the company research] challenges. " +
+          "The reason for this could be [Reason you infer based on the challenges the company faces]. " +
+          "Having worked with [technologies/buzzwords with real metrics that would help significantly to the challenges the company is facing] " +
+          "in overcoming [What you did to resolve similar challenges to what the company is facing] challenges (get from resume), " +
+          "I feel that I could help you do the same\n\n" +
+          "Do you think we can set aside 10 mins for a quick feedback session? " +
+          "Feel free to say no. I understand people are busy.\n\n" +
+          "Thanks,\nJustin Mak\"\n\n" +
+          "IMPORTANT RULES:\n" +
+          "- Fill every bracket with specific, researched content. Never leave brackets in the output.\n" +
+          "- The body should be dense with industry buzzwords that feel natural but signal deep technical fluency.\n" +
+          "- Frame everything from the recipient's perspective - they should benefit more than Justin.\n" +
+          "- If the context doesn't support strong personalization in the opening, flag it rather than fabricating.\n" +
+          "- DO NOT open with 'I hope you are doing well' or any filler pleasantry.\n" +
+          "- Use [RECRUITER_FIRST_NAME] as placeholder for the recruiter's first name.\n\n" +
+          "HARD RULE: Never use em dashes anywhere in the email. Use commas, periods, or hyphens instead.",
+      },
+    ],
+  },
+  {
+    id: 4,
     name: "Email Drafter",
     description: "Create Gmail drafts for review",
-    script: "03_workflow/draft_emails.py",
+    script: "04_workflow/draft_emails.py",
     options: [
       { flag: "--dry-run", label: "Dry Run", type: "boolean", default: false },
       { flag: "--company", label: "Single Company", type: "text", default: "" },
@@ -58,20 +104,20 @@ export const WORKFLOW_STEPS: WorkflowStepConfig[] = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     name: "Email Review",
     description: "QA check emails + resumes",
-    script: "04_workflow/review_emails.py",
+    script: "05_workflow/review_emails.py",
     options: [
       { flag: "--company", label: "Single Company", type: "text", default: "" },
       { flag: "-v", label: "Verbose", type: "boolean", default: false },
     ],
   },
   {
-    id: 5,
+    id: 6,
     name: "Email Sender",
     description: "Send emails via Gmail SMTP",
-    script: "05_workflow/send_emails.py",
+    script: "06_workflow/send_emails.py",
     options: [
       { flag: "--dry-run", label: "Dry Run", type: "boolean", default: true },
       { flag: "--no-dry-run", label: "Actually Send", type: "boolean", default: false },
@@ -93,15 +139,24 @@ const MOCK_OUTPUTS: Record<number, string[]> = {
     "[OK] Results saved to output/companies.json",
   ],
   2: [
+    "[INFO] Found 15 unique contacts to research",
+    "[INFO] Researching: Jane Smith (jane@acme.com) @ Acme Corp",
+    "[INFO]     Searching: \"Jane Smith\" \"Acme Corp\"",
+    "[INFO]     Scraping: https://linkedin.com/in/janesmith (score=10)",
+    "[INFO]   ✓ Saved jane_at_acmecom.json",
+    "[INFO] Researching: Bob Jones (bob@globex.com) @ Globex Inc",
+    "[OK] Researched 15 contacts → output/person_research/",
+  ],
+  3: [
     "[INFO] Loading company summaries...",
     "[INFO] Found 12 company profiles",
-    "[INFO] Generating email templates with GPT-4...",
+    "[INFO] Generating email templates...",
     "[INFO] Processing template for Acme Corp...",
     "[INFO] Processing template for Globex Inc...",
     "[OK] Generated 12 personalized templates",
-    "[OK] Templates saved to output/templates/",
+    "[OK] Templates saved to output/emails/",
   ],
-  3: [
+  4: [
     "[INFO] Authenticating with Gmail API...",
     "[OK] Authenticated as user@gmail.com",
     "[INFO] Loading email templates...",
@@ -109,7 +164,7 @@ const MOCK_OUTPUTS: Record<number, string[]> = {
     "[INFO] Creating draft for jobs@globex.com...",
     "[OK] Created 12 drafts in Gmail",
   ],
-  4: [
+  5: [
     "[INFO] Loading drafts for review...",
     "[INFO] Checking email 1/12: Acme Corp...",
     "[WARN] Email to Globex Inc has no resume attachment",
@@ -117,7 +172,7 @@ const MOCK_OUTPUTS: Record<number, string[]> = {
     "[OK] 11/12 emails passed QA",
     "[WARN] 1 email flagged for review",
   ],
-  5: [
+  6: [
     "[INFO] Connecting to Gmail SMTP...",
     "[OK] SMTP connection established",
     "[INFO] Sending email 1/11: hiring@acme.com...",
@@ -138,7 +193,7 @@ async function mockExecuteStep(
     await new Promise((r) => setTimeout(r, 300 + Math.random() * 400));
     onOutput(line);
   }
-  if (stepId === 4 && Math.random() < 0.15) {
+  if (stepId === 5 && Math.random() < 0.15) {
     onOutput("[ERROR] QA check failed — attachment missing for 3 emails");
     return false;
   }
@@ -197,6 +252,8 @@ async function executeStep(
   return exitCode === 0;
 }
 
+export type PipelineStatus = "idle" | "running" | "success" | "error";
+
 export function useWorkflow() {
   const [stepStates, setStepStates] = useState<Record<number, StepState>>(
     Object.fromEntries(
@@ -216,6 +273,10 @@ export function useWorkflow() {
     )
   );
 
+  const [pipelineStatus, setPipelineStatus] = useState<PipelineStatus>("idle");
+  const [pipelineStepIndex, setPipelineStepIndex] = useState(0);
+  const pipelineAborted = useRef(false);
+
   const updateStepState = useCallback((stepId: number, patch: Partial<StepState>) => {
     setStepStates((prev) => ({
       ...prev,
@@ -223,11 +284,16 @@ export function useWorkflow() {
     }));
   }, []);
 
+  const MAX_LOG_LINES = 500;
+
   const appendOutput = useCallback((stepId: number, line: string) => {
-    setStepStates((prev) => ({
-      ...prev,
-      [stepId]: { ...prev[stepId], output: [...prev[stepId].output, line] },
-    }));
+    setStepStates((prev) => {
+      const existing = prev[stepId].output;
+      const updated = existing.length >= MAX_LOG_LINES
+        ? [...existing.slice(-MAX_LOG_LINES + 1), line]
+        : [...existing, line];
+      return { ...prev, [stepId]: { ...prev[stepId], output: updated } };
+    });
   }, []);
 
   const abortControllers = useRef<Record<number, AbortController>>({});
@@ -304,5 +370,80 @@ export function useWorkflow() {
     [stepOptions, updateStepState, appendOutput]
   );
 
-  return { stepStates, stepOptions, setOption, runStep, stopStep };
+  const runAll = useCallback(async () => {
+    pipelineAborted.current = false;
+    setPipelineStatus("running");
+
+    for (let i = 0; i < WORKFLOW_STEPS.length; i++) {
+      if (pipelineAborted.current) break;
+
+      const step = WORKFLOW_STEPS[i];
+      setPipelineStepIndex(i);
+
+      const controller = new AbortController();
+      abortControllers.current[step.id] = controller;
+
+      updateStepState(step.id, {
+        status: "running",
+        output: [],
+        startedAt: Date.now(),
+        finishedAt: null,
+      });
+
+      const args = stepOptions[step.id] || {};
+      let success: boolean;
+
+      try {
+        success = await executeStep(step.id, args, (line) => {
+          appendOutput(step.id, line);
+        }, controller.signal);
+      } catch (err) {
+        if (controller.signal.aborted) {
+          // User stopped the pipeline
+          setPipelineStatus("error");
+          return;
+        }
+        appendOutput(step.id, "[WARN] Backend unavailable, using mock output");
+        success = await mockExecuteStep(step.id, args, (line) => {
+          appendOutput(step.id, line);
+        });
+      } finally {
+        delete abortControllers.current[step.id];
+      }
+
+      updateStepState(step.id, {
+        status: success ? "success" : "error",
+        finishedAt: Date.now(),
+      });
+
+      if (!success) {
+        setPipelineStatus("error");
+        return;
+      }
+    }
+
+    if (!pipelineAborted.current) {
+      setPipelineStatus("success");
+    }
+  }, [stepOptions, updateStepState, appendOutput]);
+
+  const stopAll = useCallback(async () => {
+    pipelineAborted.current = true;
+
+    // Find and abort the currently running step
+    const runningStep = WORKFLOW_STEPS.find(
+      (s) => abortControllers.current[s.id]
+    );
+
+    if (runningStep) {
+      await stopStep(runningStep.id);
+    }
+
+    setPipelineStatus("error");
+  }, [stopStep]);
+
+  return {
+    stepStates, stepOptions, setOption, runStep, stopStep,
+    pipelineStatus, pipelineStepIndex, runAll, stopAll,
+  };
 }

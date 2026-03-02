@@ -8,6 +8,6 @@ def setup(verbose: bool = False) -> logging.Logger:
         level=level,
         format="%(message)s",
         datefmt="[%X]",
-        handlers=[RichHandler(rich_tracebacks=True, markup=True)],
+        handlers=[RichHandler(rich_tracebacks=True, markup=False)],
     )
     return logging.getLogger("workflows")

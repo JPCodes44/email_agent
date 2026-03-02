@@ -11,12 +11,12 @@ from shared.logging_setup import setup as setup_logging
 from shared.csv_utils import read_csv, filter_not_emailed
 from shared.company_utils import normalize, filename_safe
 from shared.job_types import resolve as resolve_job_type
-from shared.resume_utils import get_resume_path, extract_pdf_text, find_company_resume
+from shared.resume_utils import get_resume_path, extract_pdf_text
 from shared.template_utils import find_template, parse_template
 
 from rich.console import Console
 from rich.table import Table
-from anthropic import Anthropic
+from shared.llm import create_client, chat
 
 log = logging.getLogger("workflows")
 console = Console()
@@ -48,8 +48,8 @@ def check_pdf_clipping(path: Path) -> bool:
     return True
 
 
-def claude_quality_check(client: Anthropic, email_body: str, resume_text: str) -> dict:
-    """Use Claude haiku to check email quality against resume."""
+def llm_quality_check(client, email_body: str, resume_text: str) -> dict:
+    """Use LLM to check email quality against resume."""
     prompt = (
         f"Review this cold outreach email and the candidate's resume. Answer these questions:\n\n"
         f"EMAIL:\n{email_body}\n\n"
@@ -62,12 +62,7 @@ def claude_quality_check(client: Anthropic, email_body: str, resume_text: str) -
         f"Return ONLY a JSON object with keys: outcome_present (bool), resume_supports (bool), inconsistencies (string)"
     )
 
-    resp = client.messages.create(
-        model="claude-3-haiku-20240307",
-        max_tokens=512,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    text = resp.content[0].text
+    text = chat(client, prompt, max_tokens=512)
     try:
         import json
         if "```json" in text:
@@ -114,7 +109,7 @@ def main():
         log.info("No companies to review")
         return
 
-    client = Anthropic(api_key=config.ANTHROPIC_API_KEY)
+    client = create_client()
 
     table = Table(title="Email Review", show_lines=True)
     table.add_column("Company", style="bold")
@@ -183,7 +178,7 @@ def main():
         aligns_str = "—"
         if tpl["body"] and resume_text:
             try:
-                quality = claude_quality_check(client, tpl["body"], resume_text)
+                quality = llm_quality_check(client, tpl["body"], resume_text)
                 outcome_str = "✓" if quality.get("outcome_present") else "✗"
                 aligns_str = "✓" if quality.get("resume_supports") else "✗"
                 inconsistencies = quality.get("inconsistencies", "none")

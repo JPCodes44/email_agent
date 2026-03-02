@@ -40,6 +40,19 @@ function OptionInput({
       </label>
     );
   }
+  if (opt.type === "textarea") {
+    return (
+      <label className="flex flex-col gap-1 text-sm text-text-secondary w-full">
+        <span>{opt.label}</span>
+        <textarea
+          value={String(value)}
+          onChange={(e) => onChange(e.target.value)}
+          rows={6}
+          className="rounded bg-surface border border-border-subtle px-2 py-1 text-text-primary text-sm font-mono focus:outline-none focus:border-accent resize-y w-full"
+        />
+      </label>
+    );
+  }
   return (
     <label className="flex flex-col gap-1 text-sm text-text-secondary">
       <span>{opt.label}</span>

@@ -4,3 +4,4 @@ output/
 .env
 .env.example
 logs/
+.playwright-linkedin/

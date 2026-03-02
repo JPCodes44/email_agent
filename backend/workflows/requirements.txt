@@ -1,4 +1,6 @@
 anthropic
+openai
+ddgs
 requests
 beautifulsoup4
 python-dotenv
@@ -7,3 +9,5 @@ pdfplumber
 PyMuPDF
 APScheduler
 pytz
+playwright
+websocket-client

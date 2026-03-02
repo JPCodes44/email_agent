@@ -1,4 +1,4 @@
-# Workflow 2: Email Template Generation (from CSV)
+# Workflow 3: Email Template Generation (from CSV)
 
 Reads `recruiters/list.csv`, reads the `Job Type` column, and generates one tailored `_TEMPLATE.txt` per company using the candidate profile that matches the job type. Run this after adding contacts to the CSV and filling in their job types.
 

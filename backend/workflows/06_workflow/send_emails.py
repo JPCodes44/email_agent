@@ -121,7 +121,7 @@ def main():
     try:
         for row in rows:
             company = row.get("Company", "").strip()
-            first_name = row.get("First name", "").strip()
+            first_name = row.get("FirstName", "").strip()
             to_email = row.get("Email", "").strip()
 
             if not company or not to_email:

@@ -1,65 +1,66 @@
-Email,Company,Level,Country,Emailed?,JobType
-mkiel@squareup.com,Square,Early,"North Carolina, US",No,Software
-klewandowski@squareup.com,Square,Early,"North Carolina, US",No,Software
-acornejo@squareup.com,Square,Early,"Las vegas, nevada",No,Software
-hlevey@squareup.com,Square,Early,"Boston, Massachusetts",No,Software
-gemma@squareup.com,Square,Early,California,No,Software
-dmarchman@formation.bio,Formation Bio,Early,NYC,No,Software
-glenice@formation.bio,Formation Bio,Early,Boston,No,Software
-natasha@eliseai.com,Elise AI,Early,NYC,No,Software
-hayden@meetelise.com,Elise AI,Early,NYC,No,Software
-maria.m@eliseai.com,Elise AI,Early,US,No,Software
-shriya@meetelise.com,Elise AI,Early,NYC,No,Software
-haley.ennes@sproutsocial.com,Sprout Social,Early,Chicago,No,Software
-julianne@sproutsocial.com,Sprout Social,Early,Chicago,No,Software
-amy.amato@sproutsocial.com,Sprout Social,Early,Chicago,No,Software
-meredith.haas-greene@sproutsocial.com,Sprout Social,Early,Chicago,No,Software
-sofia.vega@sproutsocial.com,Sprout Social,Early,Chicago,No,Software
-samantha.friedman@sproutsocial.com,Sprout Social,Early,Florida,No,Software
-rejoice.folashade@sproutsocial.com,Sprout Social,Early,Ireland,No,Software
-naomi.hall@sproutsocial.com,Sprout Social,Early,Ireland,No,Software
-ailin.zhu@cloudmd.ca,Kii health,Early,Markham CA,No,Software
-subhang@seamless.md,Seamless MD,Early,Toronto CA,No,Software
-andy@seamless.md,Seamless MD,Early,Toronto CA,No,Software
-thamays@aceage.com,AceAge,Early,Toronto CA,No,Software
-menfis.rosario@thinkresearch.com,ThinkResearch,Early,Toronto CA,No,Software
-prafulla@avironactive.com,Avrion,Early,Toronto CA,No,Software
-lisa.noris@takeda.com,Takeda,Early,Toronto CA,No,Software
-heidi.lejeune@takeda.com,Takeda,Early,Toronto CA,No,Software
-dustin.gee@takeda.com,Takeda,Early,Toronto CA,No,Software
-shereen.raju@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software
-anushka.abraham2@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software
-magdalen.chan@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software
-mark.reid@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software
-atenna.hercules@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software
-tburton@corvista.com,CorVista,Early,Toronto CA,No,Software
-ywang@corvista.com,CorVista,Early,Toronto CA,No,Software
-mshawaf@oncoustics.com,Oncoustics,Early,Toronto CA,No,Software
-madusha.perera@vitalhub.com,VitalHub,Early,Toronto CA,No,Software
-j.buck@intellijointsurgical.com,Intellejoint,Early,Toronto CA,No,Software
-n.dinh@intellijointsurgical.com,Intellejoint,Early,Toronto CA,No,Software
-kelly.sprague@pocket.health,Pocket Health,Early,Toronto CA,No,Software
-madeleine.spence@pocket.health,Pocket Health,Early,Toronto CA,No,Software
-reanne@medmehealth.com,MedMe Health,Early,Toronto CA,No,Software
-uchenna@medmehealth.com,MedMe Health,Early,Toronto CA,No,Software
-davin@medmehealth.com,MedMe Health,Early,Toronto CA,No,Software
-dan.lodder@mckesson.com,McKessen,Early,Toronto CA,No,Software
-ravi.nemana@mckesson.com,McKessen,Early,Toronto CA,No,Software
-brenda.comia@mckesson.com,McKessen,Early,Toronto CA,No,Software
-rachel.rose.ext@medela.com,Medela,Early,Toronto CA,No,Software
-rachel.jones@medela.com,Medela,Early,Toronto CA,No,Software
-jodi.reich@medela.com,Medela,Early,Toronto CA,No,Software
-jared.jackson@medela.com,Medela,Frontend swe,Toronto CA,No,Software
-shangni.hu@getmaple.ca,Maple (getmaple.ca),Early,Toronto CA,No,Software
-marco@getmaple.ca,Maple (getmaple.ca),SWE,Toronto CA,No,Software
-jielun@getmaple.ca,Maple (getmaple.ca),SWE,Toronto CA,No,Software
-chris.duffy@resilience.com,Resilience,SWE,Toronto CA,No,Software
-beatrice@trualta.com,Trualta,SWE,Toronto CA,No,Software
-jesus@trualta.com,Trualta,SWE,Toronto CA,No,Software
-alang@qhrtechnologies.com,QHR Technologies,HR,Toronto CA,No,Software
-daniel.mason@qhrtech.com,QHR Technologies,SWE,Toronto CA,No,Software
-cassandra.rose@qhrtech.com,QHR Technologies,QA,Toronto CA,No,Software
-diana.shnitsar@eleks.com,ELEKS,SWE,Estonia,NO,Software
-diana.dmytriv@eleks.com,ELEKS,HR,Estonia,No,Software
-pratik.kumbhar@smiledigitalhealth.com,Smile Digital Health,Early,Toronto,No,Software
-claudia.medina@smiledigitalhealth.com,Smile Digital Health,Early,Toronto,No,Software
+Email,Company,Level,Country,Emailed?,JobType,EmailLink,FirstName,LastName
+mkiel@squareup.com,Square,Early,"North Carolina, US",No,Software,,Michael,
+klewandowski@squareup.com,Square,Early,"North Carolina, US",No,Software,,Kristen,
+acornejo@squareup.com,Square,Early,"Las vegas, nevada",No,Software,,Alex,
+hlevey@squareup.com,Square,Early,"Boston, Massachusetts",No,Software,,Hannah,
+gemma@squareup.com,Square,Early,California,No,Software,,Gemma,
+dmarchman@formation.bio,Formation Bio,Early,NYC,No,Software,,David,
+glenice@formation.bio,Formation Bio,Early,Boston,No,Software,,Glenice,
+natasha@eliseai.com,Elise AI,Early,NYC,No,Software,,Natasha,
+hayden@meetelise.com,Elise AI,Early,NYC,No,Software,,Hayden,
+maria.m@eliseai.com,Elise AI,Early,US,No,Software,,Maria,
+shriya@meetelise.com,Elise AI,Early,NYC,No,Software,,Shriya,
+haley.ennes@sproutsocial.com,Sprout Social,Early,Chicago,No,Software,,Haley,
+julianne@sproutsocial.com,Sprout Social,Early,Chicago,No,Software,,Julianne,
+amy.amato@sproutsocial.com,Sprout Social,Early,Chicago,No,Software,,Amy,
+meredith.haas-greene@sproutsocial.com,Sprout Social,Early,Chicago,No,Software,,Meredith,
+sofia.vega@sproutsocial.com,Sprout Social,Early,Chicago,No,Software,,Sofia,
+samantha.friedman@sproutsocial.com,Sprout Social,Early,Florida,No,Software,,Samantha,
+rejoice.folashade@sproutsocial.com,Sprout Social,Early,Ireland,No,Software,,Rejoice,
+naomi.hall@sproutsocial.com,Sprout Social,Early,Ireland,No,Software,,Naomi,
+ailin.zhu@cloudmd.ca,Kii health,Early,Markham CA,No,Software,,Ailin,
+subhang@seamless.md,Seamless MD,Early,Toronto CA,No,Software,,Subhang,
+andy@seamless.md,Seamless MD,Early,Toronto CA,No,Software,,Andy,
+thamays@aceage.com,AceAge,Early,Toronto CA,No,Software,,Thamays,
+menfis.rosario@thinkresearch.com,ThinkResearch,Early,Toronto CA,No,Software,,Menfis,
+prafulla@avironactive.com,Avrion,Early,Toronto CA,No,Software,,Prafulla,
+lisa.noris@takeda.com,Takeda,Early,Toronto CA,No,Software,,Lisa,
+heidi.lejeune@takeda.com,Takeda,Early,Toronto CA,No,Software,,Heidi,
+dustin.gee@takeda.com,Takeda,Early,Toronto CA,No,Software,,Dustin,
+shereen.raju@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software,,Shereen,
+anushka.abraham2@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software,,Anushka,
+magdalen.chan@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software,,Magdalen,
+mark.reid@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software,,Mark,
+atenna.hercules@ontariohealth.ca,Ontario Health,Early,Toronto CA,No,Software,,Atenna,
+tburton@corvista.com,CorVista,Early,Toronto CA,No,Software,,Tyler,
+ywang@corvista.com,CorVista,Early,Toronto CA,No,Software,,Yue,
+mshawaf@oncoustics.com,Oncoustics,Early,Toronto CA,No,Software,,Mohamed,
+madusha.perera@vitalhub.com,VitalHub,Early,Toronto CA,No,Software,,Madusha,
+j.buck@intellijointsurgical.com,Intellejoint,Early,Toronto CA,No,Software,,Jordan,
+n.dinh@intellijointsurgical.com,Intellejoint,Early,Toronto CA,No,Software,,Nhi,
+kelly.sprague@pocket.health,Pocket Health,Early,Toronto CA,No,Software,,Kelly,
+madeleine.spence@pocket.health,Pocket Health,Early,Toronto CA,No,Software,,Madeleine,
+reanne@medmehealth.com,MedMe Health,Early,Toronto CA,No,Software,,Reanne,
+uchenna@medmehealth.com,MedMe Health,Early,Toronto CA,No,Software,,Uchenna,
+davin@medmehealth.com,MedMe Health,Early,Toronto CA,No,Software,,Davin,
+dan.lodder@mckesson.com,McKessen,Early,Toronto CA,No,Software,,Dan,
+ravi.nemana@mckesson.com,McKessen,Early,Toronto CA,No,Software,,Ravi,
+brenda.comia@mckesson.com,McKessen,Early,Toronto CA,No,Software,,Brenda,
+rachel.rose.ext@medela.com,Medela,Early,Toronto CA,No,Software,,Rachel,
+rachel.jones@medela.com,Medela,Early,Toronto CA,No,Software,,Rachel,
+jodi.reich@medela.com,Medela,Early,Toronto CA,No,Software,,Jodi,
+jared.jackson@medela.com,Medela,Frontend swe,Toronto CA,No,Software,,Jared,
+shangni.hu@getmaple.ca,Maple (getmaple.ca),Early,Toronto CA,No,Software,,Shangni,
+marco@getmaple.ca,Maple (getmaple.ca),SWE,Toronto CA,No,Software,,Marco,
+jielun@getmaple.ca,Maple (getmaple.ca),SWE,Toronto CA,No,Software,,Jielun,
+chris.duffy@resilience.com,Resilience,SWE,Toronto CA,No,Software,,Chris,
+beatrice@trualta.com,Trualta,SWE,Toronto CA,No,Software,,Beatrice,
+jesus@trualta.com,Trualta,SWE,Toronto CA,No,Software,,Jesus,
+alang@qhrtechnologies.com,QHR Technologies,HR,Toronto CA,No,Software,,Alan,
+daniel.mason@qhrtech.com,QHR Technologies,SWE,Toronto CA,No,Software,,Daniel,
+cassandra.rose@qhrtech.com,QHR Technologies,QA,Toronto CA,No,Software,,Cassandra,
+diana.shnitsar@eleks.com,ELEKS,SWE,Estonia,NO,Software,,Diana,
+diana.dmytriv@eleks.com,ELEKS,HR,Estonia,No,Software,,Diana,
+pratik.kumbhar@smiledigitalhealth.com,Smile Digital Health,Early,Toronto,No,Software,,Pratik,
+claudia.medina@smiledigitalhealth.com,Smile Digital Health,Early,Toronto,No,Software,,Claudia,
+,,,,,,,,

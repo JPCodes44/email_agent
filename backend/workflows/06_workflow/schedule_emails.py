@@ -148,7 +148,7 @@ def main():
     schedule = []
     for row in rows:
         company = row.get("Company", "").strip()
-        first_name = row.get("First name", "").strip()
+        first_name = row.get("FirstName", "").strip()
         to_email = row.get("Email", "").strip()
         country = row.get("Country", "").strip()
 

@@ -13,16 +13,17 @@ function colorize(line: string) {
 }
 
 export default function LogOutput({ lines, visible }: LogOutputProps) {
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = containerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [lines.length]);
 
   if (!visible) return null;
 
   return (
-    <div className="mt-3 rounded-lg bg-surface p-3 font-mono text-sm max-h-64 overflow-y-auto border border-border-subtle">
+    <div ref={containerRef} className="mt-3 rounded-lg bg-surface p-3 font-mono text-sm max-h-64 overflow-y-auto border border-border-subtle">
       {lines.length === 0 ? (
         <span className="text-text-muted">No output yet.</span>
       ) : (
@@ -32,7 +33,6 @@ export default function LogOutput({ lines, visible }: LogOutputProps) {
           </div>
         ))
       )}
-      <div ref={bottomRef} />
     </div>
   );
 }

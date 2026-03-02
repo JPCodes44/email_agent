@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from shared import config
 from shared.logging_setup import setup as setup_logging
-from shared.csv_utils import read_csv, filter_not_emailed
+from shared.csv_utils import read_csv, write_csv, filter_not_emailed
 from shared.company_utils import normalize
 from shared.job_types import resolve as resolve_job_type
 from shared.resume_utils import get_resume_path
@@ -41,9 +41,24 @@ def build_mime(to_email: str, subject: str, body: str,
     return msg
 
 
-def append_to_drafts(imap: imaplib.IMAP4_SSL, msg: MIMEMultipart):
-    """APPEND a message to Gmail's Drafts folder."""
-    imap.append("[Gmail]/Drafts", "", imaplib.Time2Internaldate(email.utils.localtime()), msg.as_bytes())
+def append_to_drafts(imap: imaplib.IMAP4_SSL, msg: MIMEMultipart) -> str | None:
+    """APPEND a message to Gmail's Drafts folder and return the Gmail draft URL."""
+    result = imap.append("[Gmail]/Drafts", "", imaplib.Time2Internaldate(email.utils.localtime()), msg.as_bytes())
+
+    # result looks like ('OK', [b'[APPENDUID 1 12345] (Success)'])
+    # Extract the UID to build a Gmail URL
+    if result[0] == "OK" and result[1]:
+        import re
+        match = re.search(r"APPENDUID \d+ (\d+)", result[1][0].decode())
+        if match:
+            uid = match.group(1)
+            # Gmail draft URL format: search for the draft by message ID
+            msg_id = msg.get("Message-ID", "").strip("<>")
+            if msg_id:
+                return f"https://mail.google.com/mail/u/0/#drafts?compose={msg_id}"
+            return f"https://mail.google.com/mail/u/0/#drafts"
+
+    return "https://mail.google.com/mail/u/0/#drafts"
 
 
 def main():
@@ -63,24 +78,16 @@ def main():
         log.error(f"Recruiters CSV not found: {csv_path}")
         sys.exit(1)
 
-    rows = filter_not_emailed(read_csv(csv_path))
-    if not rows:
+    all_rows = read_csv(csv_path)
+    contacts = filter_not_emailed(all_rows)
+    if not contacts:
         log.info("No contacts to draft (all marked as emailed)")
         return
 
-    # Deduplicate by company (first contact per company)
-    seen = {}
-    for row in rows:
-        company = row.get("Company", "").strip()
-        if not company:
-            continue
-        norm = normalize(company)
-        if args.company and normalize(args.company) != norm:
-            continue
-        if norm not in seen:
-            seen[norm] = row
+    if args.company:
+        contacts = [r for r in contacts if normalize(r.get("Company", "")) == normalize(args.company)]
 
-    log.info(f"Drafting emails for {len(seen)} companies")
+    log.info(f"Drafting emails for {len(contacts)} contacts")
 
     imap = None
     if not args.dry_run:
@@ -90,10 +97,17 @@ def main():
         imap = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
         imap.login(config.SMTP_USERNAME, config.SMTP_PASSWORD)
 
+    # Build a lookup so we can update draft links in all_rows
+    email_to_row = {}
+    for row in all_rows:
+        email_to_row[row.get("Email", "").strip()] = row
+
+    csv_changed = False
+
     try:
-        for norm, row in seen.items():
-            company = row["Company"]
-            first_name = row.get("First name", "").strip()
+        for row in contacts:
+            company = row.get("Company", "").strip()
+            first_name = row.get("FirstName", "").strip()
             to_email = row.get("Email", "").strip()
 
             if not to_email:
@@ -110,7 +124,7 @@ def main():
                 subject = substitute_name(tpl["subject"], first_name) if first_name else tpl["subject"]
                 body = substitute_name(tpl["body"], first_name) if first_name else tpl["body"]
 
-                job_type = resolve_job_type(row.get("Job Type", ""))
+                job_type = resolve_job_type(row.get("JobType", ""))
                 resume_path = get_resume_path(company, job_type)
 
                 if args.dry_run:
@@ -122,13 +136,27 @@ def main():
                     continue
 
                 msg = build_mime(to_email, subject, body, resume_path)
-                append_to_drafts(imap, msg)
+                draft_url = append_to_drafts(imap, msg)
                 log.info(f"  ✓ Draft created for {company} → {to_email}")
+
+                # Update the draft link in the CSV row
+                if to_email in email_to_row:
+                    email_to_row[to_email]["EmailLink"] = draft_url or ""
+                    csv_changed = True
+
             except Exception as e:
                 log.error(f"  ✗ Failed for {company}: {e}")
     finally:
         if imap:
             imap.logout()
+
+    # Write updated CSV with draft links
+    if csv_changed:
+        # Ensure EmailLink column exists in all rows
+        for r in all_rows:
+            r.setdefault("EmailLink", "")
+        write_csv(csv_path, all_rows)
+        log.info(f"  ✓ Updated {csv_path.name} with draft links")
 
 
 if __name__ == "__main__":

@@ -116,8 +116,17 @@ def main():
     def _research_one(row):
         company = row.get("Company", "").strip()
         email = row.get("Email", "").strip()
-        domain = domain_from_email(email)
-        website = f"https://{domain}" if domain else ""
+
+        # If Company field is a URL, use it directly as the website
+        if company.startswith("http"):
+            website = company
+            # Derive a display name from the domain for logging/filenames
+            from urllib.parse import urlparse
+            host = urlparse(website).hostname or company
+            company = host.replace("www.", "").split(".")[0].capitalize()
+        else:
+            domain = domain_from_email(email)
+            website = f"https://{domain}" if domain else ""
 
         out_file = output_dir / f"{filename_safe(company)}.json"
         if out_file.exists():

@@ -41,12 +41,28 @@ def substitute_name(text: str, first_name: str) -> str:
     return text.replace("[RECRUITER_FIRST_NAME]", first_name)
 
 
-def find_template(company: str, emails_dir: Path) -> Path | None:
-    """Find a template file for a company (case-insensitive)."""
+def find_template(company: str, emails_dir: Path, to_email: str = "") -> Path | None:
+    """Find a template file for a company + contact (case-insensitive).
+
+    Filename format: CompanyName_TEMPLATE_emailaddress.txt
+    If to_email is provided, matches on both company and email for exact contact match.
+    Falls back to company-only match if no email-specific template found.
+    """
     from shared.company_utils import normalize
     norm = normalize(company)
-    for f in emails_dir.glob("*_TEMPLATE.txt"):
-        stem = f.stem.replace("_TEMPLATE", "")
-        if normalize(stem) == norm:
-            return f
-    return None
+    company_match = None
+    email_slug = normalize(to_email.replace("@", "").replace(".", "")) if to_email else ""
+
+    for f in emails_dir.glob("*_TEMPLATE*.txt"):
+        parts = f.stem.split("_TEMPLATE")
+        file_company = parts[0]
+        if normalize(file_company) != norm:
+            continue
+        # Exact email match
+        if email_slug and len(parts) > 1:
+            file_email = parts[1].lstrip("_")
+            if file_email and normalize(file_email) == email_slug:
+                return f
+        if company_match is None:
+            company_match = f
+    return company_match

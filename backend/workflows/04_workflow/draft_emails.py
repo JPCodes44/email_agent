@@ -115,7 +115,7 @@ def main():
                 continue
 
             try:
-                tpl_path = find_template(company, emails_dir)
+                tpl_path = find_template(company, emails_dir, to_email)
                 if not tpl_path:
                     log.warning(f"  ⏭ {company} — no template found in {emails_dir}")
                     continue

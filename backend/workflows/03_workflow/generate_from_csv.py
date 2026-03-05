@@ -69,7 +69,9 @@ def load_person_research(email: str, person_research_dir: Path | None) -> dict |
 DEFAULT_PROMPT_INSTRUCTIONS = (
     "EMAIL STRUCTURE - follow this order exactly.\n\n"
 
-    "\"I really [word/phrase that represents engagement towards the recruiter] your "
+    "\"Hi [Recruiter's first name],\n\n"
+
+    "I really [word/phrase that represents engagement towards the recruiter] your "
     "[recent activity that the recruiter did (posts activities, recent job exp etc..)] about "
     "[action that they took]. [How their journey resonates with you personally]\n\n"
 
@@ -137,7 +139,13 @@ def generate_template(client, company: str, job_type_str: str,
         f"The email should:\n"
         f"{instructions}\n\n"
         f"Return ONLY a JSON object with these keys:\n"
-        f'- "subject": the email subject line (should mention reaching out via LinkedIn)\n'
+        f'- "subject": a short, curiosity-driven email subject line (under 8 words). '
+        f'It should hint at specific value for {company} without being generic. '
+        f'Good examples: "The designer you didn\'t know you needed", '
+        f'"3 changes I\'d make to your data pipeline", '
+        f'"thought you might find this useful". '
+        f'Tailor it to the company\'s domain and the {job_type_str} role. '
+        f'Do NOT mention "reaching out" or "LinkedIn".\n'
         f'- "body": the full email body\n'
         f'- "job_title": inferred job title or "N/A"\n'
     )
